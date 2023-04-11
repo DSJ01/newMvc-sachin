@@ -1,0 +1,29 @@
+<?php  
+$url = new Model_Core_Url();
+$admins = $this->getCollection()->getData();  ?>
+	<div class="dis-1">
+		<div class="dis-1a"> ADMIN </div>
+		<td> <a href=<?php echo $url->getUrl('admin','add')?>  >ADD</a> </td>
+	</div>
+	<table>
+		<tr>
+		<th>ADMIN ID</th>
+		<th>NAME</th>
+		<th>EMAIL</th>
+		<th>STATUS</th>
+		<th>EDIT</th>
+		<th>DELETE</th>
+		</tr>
+		<?php
+			foreach ($admins as $admin):
+		?>
+		<tr>
+		<td><?php echo $admin->admin_id; ?></td>
+		<td><?php echo $admin->name; ?></td>
+		<td><?php echo $admin->email; ?></td>
+		<td><?php echo $admin->getStatusText(); ?></td>
+		<td> <a href=<?php echo $url->getUrl('admin','edit',['id'=> $admin-> admin_id])  ?>  >EDIT</a> </td>
+		<td> <a href=<?php echo $url->getUrl('admin','delete',['id'=> $admin->admin_id])  ?>  >DELETE</a> </td>
+		</tr>
+	<?php endforeach ?>
+	</table>

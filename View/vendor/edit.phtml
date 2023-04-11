@@ -1,0 +1,80 @@
+<?php
+	require_once 'view/html/header.phtml';
+	$url = new Model_Core_Url();
+	$vendor = $this->getData('vendor');
+	$vendorAddress = $this->getData('address');
+
+?>
+	<form method="POST" action=<?php echo $url->getUrl('vendor','save',['id' => $vendor-> vendor_id])   ?>>
+		<table>
+			<div class="dis-1">
+		<div class="dis-1a"> MANAGE VENDOR </div>
+		<div class="dis-1a"> <button> <input type="submit" name="update" value="update"> </div>
+	</div>
+		<tr>
+			<th>FIRST NAME</th>
+			<th> <input type="text" name="vendor[first_name]" value="<?php echo $vendor-> first_name; ?>"> </th>
+		</tr>
+		<tr>
+			<th>LAST NAME</th>
+			<th> <input type="text" name="vendor[last_name]" value="<?php echo $vendor-> last_name; ?>"> </th>
+		</tr>
+		<tr>
+			<th>EMAIL</th>
+			<th> <input type="email" name="vendor[email]" value="<?php echo $vendor-> email; ?>"> </th>
+		</tr>
+		
+		<tr>
+			<th>MOBILE NO.</th>
+			<th> <input type="number" name="vendor[mobile_no]" value="<?php echo $vendor-> mobile_no; ?>"> </th>
+		</tr>
+		<tr>
+			<th>GENDER</th>
+			<th> 
+				<select name="vendor[gender]">
+					<option>SELECT OPTION</option>
+					<option value="1" <?php if($vendor-> gender == 'Male'){ echo "SELECTED"; }  ?> >Male</option>
+					<option value="2" <?php if($vendor-> gender == 'Female'){ echo "SELECTED"; }  ?> >Female</option>
+				</select>
+			</th>
+		</tr>
+		<tr>
+			<th>STATUS</th>
+			<th>
+			<select name="vendor[status]">
+			<?php foreach ($vendor->getResource()->getStatusOptions() as $key => $value): ?>
+			<?php $selected = ($key == $vendor->getStatus()) ? 'selected' : '';  ?>
+			<option value="<?php echo $key; ?>" <?php echo $selected; ?>> <?php echo $value; ?> </option>
+		<?php  endforeach;  ?>
+		</select>
+		</th>
+		</tr>
+		<tr>
+			<th>COMPANY</th>
+			<th> <input type="text" name="vendor[company]" value="<?php echo $vendor-> company; ?>"> </th>
+		</tr>
+		<tr>
+			<th>ADDRESS</th>
+			<th> 
+				<input type="text" name="vendor_address[address]" value="<?php echo $vendorAddress->address;  ?>"> 
+			</th>
+		</tr>
+		<tr>
+			<th>CITY</th>
+			<th> <input type="text" name="vendor_address[city]" value="<?php echo $vendorAddress->city;  ?>" > </th>
+		</tr>
+		<tr>
+			<th>STATE</th>
+			<th> <input type="text" name="vendor_address[state]" value="<?php echo $vendorAddress->state;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>COUNTRY</th>
+			<th> <input type="text" name="vendor_address[country]" value="<?php echo $vendorAddress->country;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>ZIP CODE</th>
+			<th> <input type="number" name="vendor_address[zip_code]" value="<?php echo $vendorAddress->zip_code;  ?>"> </th>
+		</tr>
+		</table>
+		
+	</form>

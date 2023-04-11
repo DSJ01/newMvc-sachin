@@ -1,0 +1,48 @@
+<?php
+$product = $this->getData('product');
+$url = new  Model_Core_Url();
+
+?>
+	<form method="POST" action=<?php echo $url->getUrl('product','save',['id'=>$product->product_id]);?>>
+		<table>
+			<div class="dis-1">
+		<div class="dis-1a"> EDIT PRODUCT</div>
+		<div class="dis-1a"> <button> <input type="submit" name="update" value="update"> </div>
+	</div>
+		<tr>
+			<th>NAME</th>
+			<th> <input type="text" name="product[name]" value="<?php echo $product->name;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>SKU</th>
+			<th> <input type="text" name="product[sku]" value="<?php echo $product->sku;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>COST</th>
+			<th> <input type="number" name="product[cost]" value="<?php echo $product->cost;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>PRICE</th>
+			<th> <input type="number" name="product[price]" value="<?php echo $product->price;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>QUANTITY</th>
+			<th> <input type="number" name="product[quantity]" value="<?php echo $product->quantity;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>DESCRIPTION</th>
+			<th> <input type="text" name="product[description]" value="<?php echo $product->description;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>STATUS</th>
+			<th>
+			<select name="product[status]">
+			<?php foreach ($product->getResource()->getStatusOptions() as $key => $value): ?>
+			<?php $selected = ($key == $product->getStatus()) ? 'selected' : '';  ?>
+			<option value="<?php echo $key; ?>" <?php echo $selected; ?>> <?php echo $value; ?> </option>
+		<?php  endforeach;  ?>
+		</select>
+		</th>
+		</tr>
+		</table>
+	</form>

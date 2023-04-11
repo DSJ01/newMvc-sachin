@@ -1,0 +1,74 @@
+<?php
+	$url = new Model_Core_Url();
+	$customer = $this->getData('customer');
+	$customerAddress = $this->getData('customerAddress');
+	// echo "<pre>";
+	// print_r($customer); 
+	// print_r($customerAddress); die();
+?>
+	<form method="POST" action=<?php echo $url->getUrl('customer','save',['id' =>$customer->customer_id]);?>>
+		<table>
+			<div class="dis-1">
+		<div class="dis-1a"> MANAGE CUSTOMER </div>
+		<div class="dis-1a"> <button> <input type="submit" name="update" value="update"> </div>
+	</div>
+		<tr>
+			<th>FIRST NAME</th>
+			<th> <input type="text" name="customer[first_name]" value="<?php echo $customer-> first_name; ?>"> </th>
+		</tr>
+		<tr>
+			<th>LAST NAME</th>
+			<th> <input type="text" name="customer[last_name]" value="<?php echo $customer-> last_name; ?>"> </th>
+		</tr>
+		<tr>
+			<th>EMAIL</th>
+			<th> <input type="email" name="customer[email]" value="<?php echo $customer-> email; ?>"> </th>
+		</tr>
+		
+		<tr>
+			<th>MOBILE NO.</th>
+			<th> <input type="number" name="customer[mobile_no]" value="<?php echo $customer-> mobile_no; ?>"> </th>
+		</tr>
+		<tr>
+			<th>GENDER</th>
+			<th> 
+				<select name="customer[gender]">
+					<option>SELECT OPTION</option>
+					<option value="1" <?php if($customer-> gender == 'Male'){ echo "SELECTED"; }  ?> >Male</option>
+					<option value="2" <?php if($customer-> gender == 'Female'){ echo "SELECTED"; }  ?> >Female</option>
+				</select>
+			</th>
+		</tr>
+		<tr>
+			<th>STATUS</th>
+			<th>
+			<select name="customer[status]">
+			<?php foreach ($customer->getResource()->getStatusOptions() as $key => $value): ?>
+			<?php $selected = ($key == $customer->getStatus()) ? 'selected' : '';  ?>
+			<option value="<?php echo $key; ?>" <?php echo $selected; ?>> <?php echo $value; ?> </option>
+		<?php  endforeach;  ?>
+		<tr>
+			<th>ADDRESS</th>
+			<th> 
+				<input type="text" name="customer_address[address]" value="<?php echo $customerAddress-> address;  ?>"> 
+			</th>
+		</tr>
+
+		<tr>
+			<th>CITY</th>
+			<th> <input type="text" name="customer_address[city]" value="<?php echo $customerAddress-> city;  ?>" > </th>
+		</tr>
+		<tr>
+			<th>STATE</th>
+			<th> <input type="text" name="customer_address[state]" value="<?php echo $customerAddress-> state;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>COUNTRY</th>
+			<th> <input type="text" name="customer_address[country]" value="<?php echo $customerAddress-> country;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>ZIP CODE</th>
+			<th> <input type="number" name="customer_address[zip_code]" value="<?php echo $customerAddress-> zip_code;  ?>"> </th>
+		</tr>
+		</table>
+	</form>

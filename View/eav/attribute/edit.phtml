@@ -1,0 +1,90 @@
+<?php
+	$attribute = $this->getData('attribute');
+	$options = $this->getOption();
+	$url = new Model_Core_Url();
+?>
+	<form method= "POST" action=<?php echo $url->getUrl('eav_attribute','save',['id' => $attribute-> eva_attribute_id]);?>>
+		<table>
+		<tr>
+			<th>Manage Attribute</th>
+			<th><input type="submit" value="Save"></th>
+		</tr>
+		<tr>
+			<td>Entity Type Id</td>
+			<td><input type="number" name="attribute[entity_type_id]" value="<?php echo $attribute->entity_type_id; ?>"></td>
+		</tr>
+		<tr>
+			<td>Name</td>
+			<td><input type="text" name="attribute[name]" value="<?php echo $attribute->name; ?>"></td>
+		</tr>
+		<tr>
+			<td>Code</td>
+			<td><input type="text" name="attribute[code]" value="<?php echo $attribute->code; ?>"></td>
+		</tr>
+<!-- 		<tr>
+			<td>Back</td>
+			<td><input type="text" name="attribute[code]" value="<?php echo $attribute->code; ?>"></td>
+		</tr> -->
+		<tr>
+			<td>Input type</td>
+			<td>
+				<select name="attribute[input_type]" onchange = "changeOption(this)">
+					<option value="text">Text</option>
+					<option value="textBox">Text Box</option>
+					<option value="select">Select</option>
+					<option value="radio">Radio</option>
+					<option value="checkBox">Check Box</option>
+					<option value="multipleSelect">Multiple Select</option>
+				</select>
+			</td>
+		</tr>
+		<tr id="inputTypeOptions" style="display: none;">
+			<td>Options</td>
+			<td>
+				<table id="optionTable">
+					<tr>
+						<td colspan="2"><input type="button" name="add" id="add" value="Add Option"></td>
+					</tr>
+					<?php if (!$options) :?>
+					<tr class="optionInputRow">
+						<td>Add Options</td>
+					</tr>
+					<?php else : ?>
+					<?php foreach ($options as $option) : ?>
+					<tr class="optionInputRow">
+						<td><input type="text" name="option[option][exist][<?php echo $option->option_id; ?>]" value="<?php echo $option->name; ?>"></td>
+						<td><input type="button" name="remove" class="remove" value="Remove"></td>
+					</tr>
+					<?php endforeach; ?>
+					<?php endif; ?>
+				</table>
+	</form>
+
+
+	<table id="optionInputRowTable" style="display:none;">
+		<tr class="optionInputRow">
+			<td><input type="text" name="option[option][new][]"></td>
+			<td><input type="button" name="remove" class="remove" value="Remove"></td>
+		</tr>
+	</table>
+	<script type="text/javascript">
+	function changeOption(object) {
+		var inputType = $(object);
+		if (inputType.val() == 'radio' || inputType.val() == 'checkBox' || inputType.val() == 'select' || inputType.val() == 'multiSelect') {
+			$('#inputTypeOptions').show();
+		}else{
+			$('#inputTypeOptions').hide();
+		}
+	}
+
+	$('#add').click(function () {
+		var row = $('#optionInputRowTable .optionInputRow').clone();
+		$('#optionTable tbody').append(row);
+	})
+
+	$('#optionTable').on('click', '.remove', function() {
+	    var parentRow = $(this).closest('tr');
+	    parentRow.remove();
+	});
+	</script>
+

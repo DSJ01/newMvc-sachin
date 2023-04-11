@@ -1,0 +1,41 @@
+<?php
+$url = new Model_Core_Url();
+$vendors = $this->getCollection()->getData();
+?>
+	<div class="dis-1">
+		<div class="dis-1a"> VENDOR</div>
+		<div class="dis-1a"> <button> <a href=<?php echo $url->getUrl('vendor','add');?>> ADD VENDOR</a> </button> </div>
+	</div>
+	<table>
+		<tr>
+		<th>VENDOR ID</th>
+		<th>FIRST NAME</th>
+		<th>LAST NAME</th>
+		<th>EMAIL</th>
+		<th>MOBILE NO.</th>
+		<th>GENDER</th>
+		<th>STATUS</th>
+		<th>COMPANY</th>
+		<th>ADDRESS</th>
+		<th>EDIT</th>
+		<th>DELETE</th>
+		</tr>
+		<?php
+			foreach ($vendors as $vendor):
+		?>
+		<tr>
+		<td><?php echo $vendor-> vendor_id; ?></td>
+		<td><?php echo $vendor-> first_name; ?></td>
+		<td><?php echo $vendor-> last_name; ?></td>
+		<td><?php echo $vendor-> email; ?></td>
+		<td><?php echo $vendor-> mobile_no; ?></td>
+		<td><?php echo $vendor-> gender; ?></td>
+		<td><?php echo $vendor->getStatusText(); ?></td>
+		<td><?php echo $vendor-> company; ?></td>
+		<td> <a href=<?php echo $url->getUrl('vendor','address',['id' => $vendor-> vendor_id]);?>>SHOW</a> </td>
+		<td> <a href=<?php echo $url->getUrl('vendor','edit',['id' => $vendor-> vendor_id]);?>>EDIT</a> </td>
+		<td> <a href=<?php echo $url->getUrl('vendor','delete',['id' => $vendor-> vendor_id]);?>>DELETE</a> </td>
+
+		</tr>
+	<?php endforeach; ?>
+	</table>

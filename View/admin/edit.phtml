@@ -1,0 +1,33 @@
+<?php    
+	$url = new Model_Core_Url();
+	$admin = $this->getData('admin');
+     ?>
+<form method="POST" action=<?php echo $url->getUrl('admin','save',['id' => $admin-> admin_id ]) ?>>
+		<table>
+			<div class="dis-1">
+		<div class="dis-1a">ADMIN</div>
+		<div class="dis-1a"> <button> <input type="submit" name="update" value="Save"> </div>
+	</div>
+		<tr>
+			<th>NAME</th>
+			<th> <input type="text" name="admin[name]" value="<?php echo $admin-> name; ?>"> </th>
+		</tr>
+		<tr>
+			<th>EMAIL</th>
+			<th> <input type="text" name="admin[email]" value="<?php echo $admin-> email; ?>"> </th>
+		</tr>
+		<tr>
+			<th>STATUS</th>
+			<th>
+			<select name="admin[status]">
+			<?php foreach ($admin->getResource()->getStatusOptions() as $key => $value): ?>
+			<?php $selected = ($key == $admin->getStatus()) ? 'selected' : '';  ?>
+			<option value="<?php echo $key; ?>" <?php echo $selected; ?>> <?php echo $value; ?> </option>
+		<?php  endforeach;  ?>
+		</select>
+		</th>
+		</tr>
+		</table>
+		
+	</form>
+

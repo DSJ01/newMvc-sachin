@@ -1,0 +1,30 @@
+<?php
+$productId = $this->getData('productid');
+?>
+	<form method="POST" action="index.php?c=product_media&a=insert&id=<?php echo $productId ?>" enctype="multipart/form-data">
+		<table>
+			<div class="dis-1">
+		<div class="dis-1a">ADD IMAGES</div>
+		<div class="dis-1a"> <input type="submit" name="submit" value="submit"> </div>
+	</div>
+		<tr>
+			<th>NAME</th>
+			<th> <input type="text" name="img[name]"> </th>
+		</tr>
+		<tr>
+			<th>STATUS</th>
+			<th> 
+				<select name="img[status]">
+					<option>SELECT OPTION</option>
+					<option value="1">Active</option>
+					<option value="2">Inactive</option>
+				</select>
+			</th>
+		</tr>
+		<tr>
+			<th>Img.</th>
+			<th> <input type="file" name="img"> </th>
+		</tr>
+		</table>
+		<input type="hidden" name="product_id" value="<?php echo $productId; ?>">
+		</form>

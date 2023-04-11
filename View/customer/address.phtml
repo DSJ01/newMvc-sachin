@@ -1,0 +1,26 @@
+<?php
+$customerAddress = $this->getData('address');
+?>
+	<div class="dis-1">
+		<div class="dis-1a"> MANAGE CUSTOMER ADDRESS</div>
+		<!-- <div class="dis-1a"> <button> <a href="Customer.php?a=add"> ADD CUSTOMER</a> </button> </div> -->
+	</div>
+	<table>
+		<tr>
+		<th>CUSTOMER ADDRESS ID</th>
+		<th>ADDRESS</th>
+		<th>CITY</th>
+		<th>STATE</th>
+		<th>COUNTRY</th>
+		<th>ZIP CODE</th>
+		</tr>
+		
+		<tr>
+		<td><?php echo $customerAddress->customer_address_id; ?></td>
+		<td><?php echo $customerAddress->address; ?></td>
+		<td><?php echo $customerAddress->city; ?></td>
+		<td><?php echo $customerAddress->state; ?></td>
+		<td><?php echo $customerAddress->country; ?></td>
+		<td><?php echo $customerAddress->zip_code; ?></td>
+		</tr>
+	</table>

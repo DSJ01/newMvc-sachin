@@ -1,0 +1,28 @@
+<?php
+$payments = $this->getCollection()->getData();
+$url = new Model_Core_Url();
+?>
+	<div class="dis-1">
+		<div class="dis-1a"> PAYMENT SHIPPING</div>
+		<div class="dis-1a"> <button> <a href=<?php echo $url->getUrl('payment','add');?>> ADD PAYMENT</a> </button> </div>
+	</div>
+	<table class="table table-sm">
+		<tr>
+		<th>PAYMENT ID</th>
+		<th>NAME</th>
+		<th>STATUS</th>
+		<th>EDIT</th>
+		<th>DELETE</th>
+		</tr>
+		<?php
+			foreach ($payments as $payment):
+		?>
+		<tr>
+		<td><?php echo $payment->payment_method_id; ?></td>
+		<td><?php echo $payment->name; ?></td>
+		<td><?php echo $payment->getStatusText(); ?></td>
+		<td> <a href=<?php echo $url->getUrl('payment','edit',['id' => $payment-> payment_method_id]);?>>EDIT</a> </td>
+		<td> <a href=<?php echo $url->getUrl('payment','delete',['id' => $payment-> payment_method_id]);?>>DELETE</a> </td>
+		</tr>
+	<?php endforeach; ?>
+	</table>

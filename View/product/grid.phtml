@@ -1,0 +1,43 @@
+<?php
+$products = $this->getCollection()->getData();
+$url = new Model_Core_Url();
+
+?>
+	<div class="dis-1">
+		<div class="dis-1a"> MANAGE PRODUCT</div>
+		<div class="dis-1a"> <button> <a href=<?php echo $url->getUrl('product','add');  ?>> ADD PRODUCT</a> </button> 
+		</div>
+	</div>
+	<table>
+		<tr>
+		<th>PRODUCT ID</th>
+		<th>NAME</th>
+		<th>SKU</th>
+		<th>COST</th>
+		<th>PRICE</th>
+		<th>QUANTITY</th>
+		<th>DESCRIPTION</th>
+		<th>STATUS</th>
+		<th>IMAGES</th>
+		<th>EDIT</th>
+		<th>DELETE</th>
+		</tr>
+
+		<?php
+			foreach ($products as $product):
+		?>
+		<tr>
+		<td><?php echo $product->product_id; ?></td>
+		<td><?php echo $product->name; ?></td>	
+		<td><?php echo $product->sku; ?></td>
+		<td><?php echo $product->cost; ?></td>
+		<td><?php echo $product->price; ?></td>
+		<td><?php echo $product->quantity; ?></td>
+		<td><?php echo $product->description; ?></td>
+		<td><?php echo $product->getStatusText(); ?></td>
+		<td> <a href=<?php echo $url->getUrl('product_media','grid',['id' => $product-> product_id]);?>>IMAGES</a> </td>
+		<td> <a href=<?php echo $url->getUrl('product','edit',['id' => $product-> product_id]);?>>EDIT</a> </td>
+		<td> <a href=<?php echo $url->getUrl('product','delete',['id' => $product-> product_id]);?>>DELETE</a> </td>
+		</tr>
+		<?php endforeach; ?>
+	</table>

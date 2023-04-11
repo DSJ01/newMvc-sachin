@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="skin/css/style.css">
+	<link rel="stylesheet" type="text/css" href="../skin/css/style.css">
+
+	<style type="text/css">
+	table{
+	width: 100%;
+	}
+
+	th,td{
+		border: 1px solid black;
+		padding: 20px;
+		height: 50px;
+	}
+
+	</style>
+
+	<title>
+		MVC
+	</title>
+</head>
+<body>
+	<table widht = 100%>
+	<tr>
+		<td colspan="3">
+		<?php $this->getChild('header')->render();  ?>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">
+		<?php $this->getChild('message')->render();  ?>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<?php $this->getChild('content')->render();  ?>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">
+		<?php $this->getChild('footer')->render();  ?>
+		</td>
+	</tr>
+	</table>
+</body>
+</html>

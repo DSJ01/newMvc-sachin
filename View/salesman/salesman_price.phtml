@@ -1,0 +1,57 @@
+<?php
+$salesmans = $this->getData('salesman');
+$salesmanId = $this->getData('salesman_id'); 
+$salesmanPrices = $this->getData('salesman_prices');
+
+?>
+	<div class="dis-1">
+		<div class="dis-1a"> MANAGE SALESMAN PRICE</div>
+		<!-- <div class="dis-1a"> <button> <a href="Salesman.php?a=add"> ADD SALESMAN</a> </button> </div> -->
+
+	<div class="dis-1">
+		
+		
+		<select onchange="changeSalesman(this.value)">
+			<?php foreach ($salesmans as $salesman): ?>
+			<option <?php if($salesman->salesman_id == $salesmanId ) { echo "SELECTED";}  ?> value = "<?php echo $salesman->salesman_id; ?>"><?php echo $salesman->first_name ?></option>
+		<?php endforeach; ?>
+		</select>
+		
+
+	</div>	
+
+	</div>
+	<form method="POST" action="index.php?c=salesman_price&a=update&id=<?php echo $salesmanId; ?>">
+		<input type="submit" name="update" value="UPDATE">
+	<table>
+		<tr>
+		<th>PRODUCT ID</th>
+		<th>SALESMAN ID</th>
+		<th>SALESMAN PRICE ID</th>
+		<th>PRODUCT NAME</th>
+		<th>PRODUCT PRICE</th>
+		<th>SALESMAN PRICE</th>
+		</tr>
+		<?php
+			
+			foreach ($salesmanPrices as $salesmanPrice):
+			
+		?>
+				<tr>
+		<td><?php echo $salesmanPrice->product_id ?></td>
+		<td><?php echo $salesmanPrice->salesman_id ?></td>
+		<td><?php echo $salesmanPrice->salesman_price_id ?></td>
+		<td><?php echo $salesmanPrice->name ?></td>
+		<td><?php echo $salesmanPrice->price ?></td>
+		<td> <input type="number" name="salesman_price[<?php echo $salesmanPrice->product_id ?>]" value="<?php echo $salesmanPrice->salesman_price ?>">  </td>
+		
+	<?php endforeach ?>
+</form>
+	</table>
+
+	<script type="text/javascript">
+		function changeSalesman(salesman_id) {
+			window.location.href = "index.php?c=salesman_price&a=grid&id="+salesman_id;
+		}
+		
+	</script>
