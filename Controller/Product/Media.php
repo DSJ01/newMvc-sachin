@@ -18,7 +18,7 @@ class Controller_Product_media extends Controller_Core_Action{
 			$productimg = $productimgModel->fetchAll($sql);
 			$layout = $this->getLayout();
 			$media = new Block_Product_Media_Grid();
-			$media->setData(['productimg' => $productimg, '$productid' => $productId]);
+			$media->setData(['productimg' => $productimg, 'productid' => $productId]);
 			$layout->getChild('content')->addChilde('edit',$media);
 			$layout->render();
 			
@@ -37,10 +37,13 @@ class Controller_Product_media extends Controller_Core_Action{
 			}
 			$productimgModel = Ccc::getModel('Product_Media');
 			$layout = $this->getLayout();
-			$grid = new Block_Product_Media_Grid();
-			
-			$view = $this->getView();
-			$view->setTemplate('product_media/add.phtml')->setData(['productid' => $productId])->render();
+			$edit = new Block_Product_Media_Edit();
+			$edit->setData(['edit'=>$productimgModel , 'productid' => $productId]);
+			$layout->getChild('content')->addChilde('edit', $edit);
+			// echo "<pre>";
+			// print_r($layout); die();
+
+			$layout->render();
 	}
 
 	public function insertAction()
@@ -86,49 +89,49 @@ class Controller_Product_media extends Controller_Core_Action{
 	{
 		// try {
 
-		$productModel =Ccc::getModel('Product_Media'); 
-		$request = $this->getRequest();	
-		$productId = $request->getParams('id');
-		$productMediaId = $request->getPost('image');
-		$basicData = ['base'=>0,'thumnail'=>0,'small'=>0,'gallary'=>0];
-		$condition = ['product_id'=>$productId];
-		$result = $productModel->save($basicData,$condition);	
-		$condition = ['product_media_id'=>$productMediaId];
+		// $productModel =Ccc::getModel('Product_Media'); 
+		// $request = $this->getRequest();	
+		// $productId = $request->getParams('id');
+		// $productMediaId = $request->getPost('image');
+		// $basicData = ['base'=>0,'thumnail'=>0,'small'=>0,'gallary'=>0];
+		// $condition = ['product_id'=>$productId];
+		// $result = $productModel->save($basicData,$condition);	
+		// $condition = ['product_media_id'=>$productMediaId];
 
 
-		$images = $request->getpost();
+		// $images = $request->getpost();
 
-		if (array_key_exists('base',$images)) 
-		{
-			$base =Ccc::getModel('Product_Media'); 
-			$base->setData(['base'=>1]);
-			$base->product_media_id = $data['base'];
-			$result = $base->save();
-		}
+		// if (array_key_exists('base',$images)) 
+		// {
+		// 	$base =Ccc::getModel('Product_Media'); 
+		// 	$base->setData(['base'=>1]);
+		// 	$base->product_media_id = $data['base'];
+		// 	$result = $base->save();
+		// }
 
-		if (array_key_exists('small',$images)) 
-		{
-			$small =Ccc::getModel('Product_Media'); 
-			$small->setData(['small'=>1]);
-			$small->product_media_id = $data['small'];
-			$result = $small->save();
-		}
+		// if (array_key_exists('small',$images)) 
+		// {
+		// 	$small =Ccc::getModel('Product_Media'); 
+		// 	$small->setData(['small'=>1]);
+		// 	$small->product_media_id = $data['small'];
+		// 	$result = $small->save();
+		// }
 
-		if (array_key_exists('thumnail',$images)) {	
-			$thumnail =Ccc::getModel('Product_Media'); 
-			$thumnail->setData(['thumnail'=>1]);
-			$thumnail->product_media_id = $data['thumnail'];
-			$result = $thumnail->save();
-		}	
+		// if (array_key_exists('thumnail',$images)) {	
+		// 	$thumnail =Ccc::getModel('Product_Media'); 
+		// 	$thumnail->setData(['thumnail'=>1]);
+		// 	$thumnail->product_media_id = $data['thumnail'];
+		// 	$result = $thumnail->save();
+		// }	
 
-		if (array_key_exists('gallery',$images)) {
-			$condition = $data['gallary'];
-			$gallary =Ccc::getModel('Product_Media'); 
-			$gallary->setData(['gallary'=>1]);
-			$gallary->product_media_id = $data['gallary'];
-			$result = $gallary->save();
+		// if (array_key_exists('gallery',$images)) {
+		// 	$condition = $data['gallary'];
+		// 	$gallary =Ccc::getModel('Product_Media'); 
+		// 	$gallary->setData(['gallary'=>1]);
+		// 	$gallary->product_media_id = $data['gallary'];
+		// 	$result = $gallary->save();
 
-		$this->redirect('product_media','grid',['id'=>$productId],true);
+		// $this->redirect('product_media','grid',['id'=>$productId],true);
 
 			
 		// } catch (Exception $e) {

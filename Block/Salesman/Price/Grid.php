@@ -1,5 +1,5 @@
 <?php
-class Block_Salesman_Price_Edit extends Block_Core_Abstracts
+class Block_Salesman_Price_Grid extends Block_Core_Abstracts
 {
 	function __construct()
 	{

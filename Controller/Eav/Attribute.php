@@ -25,13 +25,21 @@ class Controller_Eav_Attribute extends Controller_Core_Action
 			$layout = $this->getLayout();
 			$edit = new Block_Eav_Attribute_Edit();
 			$attribute = Ccc::getModel('Eav_Attribute')->load($attributeId);
-			$edit->setData(['attribute' => $attribute]);
+
+			$attributeEntity = Ccc::getModel('Eav_Attribute_Entity');
+			$sql = "SELECT * FROM `entity_type`";
+			$entityData = $attributeEntity->fetchAll($sql);
+
+			$option = Ccc::getModel('eav_Attribute_Option');
+			$sql = "SELECT * FROM `eav_attribute_option` WHERE `attribute_id` = '{$attributeId}'";
+			$optionData = $option->fetchAll($sql);
+
+			$edit->setData(['attribute' => $attribute, 'entitys' => $entityData, 'options' => $optionData]);
 			$layout->getChild('content')->addChilde('edit',$edit);
 			$layout->render(); 
 			
 		} catch (Exception $e) {
 			$this->getMessage()->addMessages($e->getMessage(),Model_Core_Message::FAILURE);
-			
 		}
 
 		}
@@ -45,7 +53,11 @@ class Controller_Eav_Attribute extends Controller_Core_Action
 			$layout = $this->getLayout();
 			$edit = new Block_Eav_Attribute_Edit();
 			$attributeModel = Ccc::getModel('Eav_Attribute');
-			$edit->setData(['attribute' => $attributeModel]);
+
+			$attributeEntity = Ccc::getModel('Eav_Attribute_Entity');
+			$sql = "SELECT * FROM `entity_type`";
+			$entityData = $attributeEntity->fetchAll($sql);
+			$edit->setData(['attribute' => $attributeModel, 'entitys' => $entityData]);
 			$layout->getChild('content')->addChilde('edit',$edit);
 			$layout->render();
 		}	
@@ -63,11 +75,15 @@ class Controller_Eav_Attribute extends Controller_Core_Action
 			throw new Exception("Data not Posted..", 1);			
 			}
 			$option = $this->getRequest()->getPost('option');
+			print_r($option);
 			if (!$option) {
 			throw new Exception("Data not Posted..", 1);			
 			}
-			$newOption = $option['option']['new'];
-			$existOption = $option['option']['exist'];
+			$newOption = $option['new'];
+			$existOption = $option['exist'];
+
+			// print_r($existOption);	
+			die();
 
 		    $attributeModel = Ccc::getModel('Eav_Attribute');
 			$optionModel = Ccc::getModel('eav_Attribute_Option');
@@ -84,23 +100,24 @@ class Controller_Eav_Attribute extends Controller_Core_Action
 				 	$this->error('Data NOt Inserted');
 				 }	 
 
-			if (!$optionModel->attribute_id) {
-				$optionModel->attribute_id = $insertId;
-			}
-			$optionId = $optionModel->attribute_id;
+			// if (!$optionModel->attribute_id) {
+			// 	$optionModel->attribute_id = $insertId;
+			// }
+			// $optionId = $optionModel->attribute_id;
 
-			$where = "";
 			if ($existOption) {
-				$ids = implode(',', array_keys($existOption));
-				$where = AND `option_id` NOT IN ($ids);
+				foreach ($existOption as $optionId => $name) {
+					$option = Ccc::getModel('eav_Attribute_Option')->load($optionId);
+					if (!$option) {
+						$this->error('Data not found');
+					}
+					$option->name = $name;
+					$option->save();
+				}
 			}
-
-			$sql = "DELETE FROM `eav_attribute_option` WHERE `attribute_id` = '{$optionId}' .$where"
-
-
 
 			if ($newOption) {
-				foreach ($newOption as $optionnId => $name){
+				foreach ($newOption as $optionId => $name){
 					$option = Ccc::getModel('eav_Attribute_Option');
 					$option->name = $name;
 					$option->attribute_id = $insertId;
@@ -122,7 +139,7 @@ class Controller_Eav_Attribute extends Controller_Core_Action
 			$data = $attribute->load($id);
 			$result = $attribute->delete();
 			if ($result) {
-				$this->error('Failed to delete data!!!');
+				$this->error('delete data...');
 			}
 			$this->redirect('eav_attribute','grid',[],true);
 		} catch (Exception $e) {

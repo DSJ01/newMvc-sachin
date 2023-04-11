@@ -1,7 +1,8 @@
 <?php
 	$url = new Model_Core_Url();
 	$customer = $this->getData('customer');
-	$customerAddress = $this->getData('customerAddress');
+	$billingAddress = $this->getData('billingAddress');
+	$shippingAddress = $this->getData('shippingAddress');
 	// echo "<pre>";
 	// print_r($customer); 
 	// print_r($customerAddress); die();
@@ -47,28 +48,54 @@
 			<?php $selected = ($key == $customer->getStatus()) ? 'selected' : '';  ?>
 			<option value="<?php echo $key; ?>" <?php echo $selected; ?>> <?php echo $value; ?> </option>
 		<?php  endforeach;  ?>
+			<tr> <th>BILLING ADDRESS</th></tr>
 		<tr>
-			<th>ADDRESS</th>
+			<th> ADDRESS</th>
 			<th> 
-				<input type="text" name="customer_address[address]" value="<?php echo $customerAddress-> address;  ?>"> 
+				<input type="text" name="billing_address[address]" value="<?php echo $billingAddress-> address;  ?>"> 
 			</th>
 		</tr>
 
 		<tr>
 			<th>CITY</th>
-			<th> <input type="text" name="customer_address[city]" value="<?php echo $customerAddress-> city;  ?>" > </th>
+			<th> <input type="text" name="billing_address[city]" value="<?php echo $billingAddress-> city;  ?>" > </th>
 		</tr>
 		<tr>
 			<th>STATE</th>
-			<th> <input type="text" name="customer_address[state]" value="<?php echo $customerAddress-> state;  ?>"> </th>
+			<th> <input type="text" name="billing_address[state]" value="<?php echo $billingAddress-> state;  ?>"> </th>
 		</tr>
 		<tr>
 			<th>COUNTRY</th>
-			<th> <input type="text" name="customer_address[country]" value="<?php echo $customerAddress-> country;  ?>"> </th>
+			<th> <input type="text" name="billing_address[country]" value="<?php echo $billingAddress-> country;  ?>"> </th>
 		</tr>
 		<tr>
 			<th>ZIP CODE</th>
-			<th> <input type="number" name="customer_address[zip_code]" value="<?php echo $customerAddress-> zip_code;  ?>"> </th>
+			<th> <input type="number" name="billing_address[zip_code]" value="<?php echo $billingAddress-> zip_code;  ?>"> </th>
+		</tr>
+		<tr> <th> SHIPPING ADDRESS </th> </tr>
+
+		<tr>
+			<th>ADDRESS</th>
+			<th> 
+				<input type="text" name="shipping_address[address]" value="<?php echo $shippingAddress-> address;  ?>"> 
+			</th>
+		</tr>
+
+		<tr>
+			<th>CITY</th>
+			<th> <input type="text" name="shipping_address[city]" value="<?php echo $shippingAddress-> city;  ?>" > </th>
+		</tr>
+		<tr>
+			<th>STATE</th>
+			<th> <input type="text" name="shipping_address[state]" value="<?php echo $shippingAddress-> state;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>COUNTRY</th>
+			<th> <input type="text" name="shipping_address[country]" value="<?php echo $shippingAddress-> country;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>ZIP CODE</th>
+			<th> <input type="number" name="shipping_address[zip_code]" value="<?php echo $shippingAddress-> zip_code;  ?>"> </th>
 		</tr>
 		</table>
 	</form>

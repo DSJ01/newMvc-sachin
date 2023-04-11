@@ -1,12 +1,14 @@
 <?php
-$salesmans = $this->getData('salesman');
+$salesmans = $this->getData('salesman')->getData();
 $salesmanId = $this->getData('salesman_id'); 
-$salesmanPrices = $this->getData('salesman_prices');
+$salesmanPrices = $this->getData('salesman_prices')->getData();
+echo "<pre>";
+// print_r($salesmans);
+// die();
 
 ?>
 	<div class="dis-1">
 		<div class="dis-1a"> MANAGE SALESMAN PRICE</div>
-		<!-- <div class="dis-1a"> <button> <a href="Salesman.php?a=add"> ADD SALESMAN</a> </button> </div> -->
 
 	<div class="dis-1">
 		

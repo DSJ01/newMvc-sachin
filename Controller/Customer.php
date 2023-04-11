@@ -46,13 +46,11 @@ class Controller_Customer extends Controller_Core_Action{
 			$customerModel = Ccc::getModel('Customer');
 			$customer = $customerModel->load($customerId);
 
-			$customerAddressModel = Ccc::getModel('Customer_Address');
-			$sql = "SELECT * FROM `customer_address` WHERE `customer_id` = '{$customerId}'";
-			$customerAddress = $customerAddressModel->fetchRow($sql);		
-
+			$billingAddress = Ccc::getModel('Customer_Address')->load($customer->billing_address_id);
+			$shippingAddress = Ccc::getModel('Customer_Address')->load($customer->shipping_address_id);
 			$layout = $this->getLayout();
 			$edit = new Block_Customer_Edit();
-			$edit->setData(['customer' => $customer, 'customerAddress' => $customerAddress]);
+			$edit->setData(['customer' => $customer, 'billingAddress' => $billingAddress, 'shippingAddress' => $shippingAddress]);
 			$layout->getChild('content')->addChilde('edit',$edit);
 			$layout->render();
 
@@ -77,17 +75,24 @@ class Controller_Customer extends Controller_Core_Action{
 					throw new Exception("Data not Posted..", 1);			
 				}
 
-				$customerAddressData = $this->getRequest()->getPost('customer_address');
-				if (!$customerAddressData) {
+				$shippingAddressData = $this->getRequest()->getPost('shipping_address');
+				if (!$shippingAddressData) {
+					throw new Exception("Data not Posted..", 1);			
+				}
+
+				$billingAddressData = $this->getRequest()->getPost('billing_address');
+				if (!$billingAddressData) {
 					throw new Exception("Data not Posted..", 1);			
 				}
 
 				$id = $this->getRequest()->getParams('id');
 				$customerModel = Ccc::getModel('Customer');
-				$customerAddressModel = Ccc::getModel('Customer_Address');
+				$shippingModel = Ccc::getModel('Customer_Address');
+				$billingModel = Ccc::getModel('Customer_Address');
+
 				if ($id) {
 					$customerModel->load($id);
-					$sql = "SELECT * FROM `customer_address` WHERE `customer_id` = '{$id}'";
+					$sql = "SELECT * FROM `customer_address` WHERE `customer_id` = '{$id} AND `` '";
 					$customerAddressModel->fetchRow($sql);
 					$customerAddressModel-> updated_at = date("Y-m-d h:i:sa");
 					$customerModel -> updated_at = date("Y-m-d h:i:sa");
@@ -103,13 +108,13 @@ class Controller_Customer extends Controller_Core_Action{
 				if (!$customerAddressModel->customer_id) {
 				$customerAddressModel-> customer_id = $customerId;
 				}
-				$table =  $customerAddressModel->getResource()->getTableName();
 				$result = $customerAddressModel->save();
+
 				if ($customerId && $result ) {
 					throw new Exception("DATA SAVED...", 1);
 					
 				}
-				$this->redirect('customer','grid',null,true);
+				// $this->redirect('customer','grid',null,true);
 				
 			} catch (Exception $e) {
 				$this->getMessage()->addMessages($e->getMessage(),Model_Core_Message::FAILURE);

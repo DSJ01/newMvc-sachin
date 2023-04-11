@@ -15,15 +15,15 @@
 		{	
 			try {
 
-				$request = $this->getRequest();
+			$request = $this->getRequest();
 			$salesmanId =$request->getParams('id');
-			$this->setSalesmanId($salesmanId);
 			if (!$salesmanId) {
 					$this->error('Request deniad...');
 				}
-			$priceModel = Ccc::getModel('Salesman_Price_Row');
+			$salesmanModel = Ccc::getModel('Salesman');
+			$priceModel = Ccc::getModel('Salesman_Price');
 			$sql = "SELECT * FROM `salesman`";
-			$salesman = $priceModel->fetchAll($sql); 
+			$salesmanData = $salesmanModel->fetchAll($sql); 
 
 			$joinSql = "SELECT p.product_id, p.name, p.price, sp.salesman_price_id, sp.salesman_price, sp.salesman_id FROM `product` p
 				LEFT JOIN `salesman_price` sp ON p.product_id = sp.product_id
@@ -33,7 +33,7 @@
 			$salesmanPrices = $priceModel->fetchAll($joinSql);
 			$layout = $this->getLayout();
 			$grid = new Block_Salesman_Price_Grid();
-			$grid->setData(['salesman'=> $salesman,'salesman_prices'=>$salesmanPrices, 'salesman_id' => $salesmanId]);
+			$grid->setData(['salesman'=> $salesmanData, 'salesman_prices'=>$salesmanPrices, 'salesman_id' => $salesmanId]);
 			$layout->getChild('content')->addChilde('grid',$grid);
 			$layout->render();
 				
@@ -47,8 +47,7 @@
 		public function updateAction()
 		{
 			try {
-				
-			} catch (Exception $e) {
+
 				$request = $this->getRequest();
 			$salesmanPrice = $request->getpost('salesman_price');
 			$salesmanId = $request->getParams('id');
@@ -59,26 +58,33 @@
 
 			$sql = "SELECT `salesman_price_id` FROM `salesman_price` WHERE `product_id` = '{$key}' 
 					AND `salesman_id` = '{$salesmanId}'";
-			$priceModel = Ccc::getModel('Salesman_Price_Row'); 
-			$result = $priceModel->fetchAll($sql);	
-				if ($result) {
-						
+			$priceModel = Ccc::getModel('Salesman_Price'); 
+			$price = $priceModel->fetchAll($sql);	
+				if ($price) {
 					$data = ['salesman_price'=>$value,'product_id'=>$key];
-					$condition = ['salesman_id'=>$salesmanId,'product_id'=>$key];
-					$result = $priceModel->update($data,$condition);
+					$priceModel->setData($data);
+					$result = $priceModel->save();
 					}
 					else{
 						if ($value != '') {
 							$data = ['salesman_price'=>$value,'product_id'=>$key,'salesman_id'=>$salesmanId];
-							$result = $priceModel->insert($data);
-							print_r($result);
+							$priceModel->setData($data);
+							$result = $priceModel->save();
+							// print_r($result);
 						}
 					}
+
+				}
+					$this->redirect('salesman_price','grid',['id' => $salesmanId],true);
+				
+			} catch (Exception $e) {
+				
+					$this->getMessage()->addMessages($e->getMessage(),Model_Core_Message::FAILURE);
+					$this->redirect('salesman_price','grid',['id' => $salesmanId],true);
 			
 			}
-			}
 			
-			$this->redirect('salesman_price','grid',['id' => $salesmanId],true);
+			
 		}
 
 
