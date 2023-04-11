@@ -1,0 +1,42 @@
+<?php
+	$category = $this->getData('category');
+	$url = new Model_Core_Url();
+?>
+	<form method="POST" action=<?php echo $url->getUrl('category','save',['id' => $category->category_id]);?>>
+
+		<table>
+			<div class="dis-1">
+		<div class="dis-1a"> EDIT CATEGORY</div>
+		<div class="dis-1a"> <button> <input type="submit" name="update" value="update"> </div>
+	</div>
+		<tr>
+			<th>PARENT ID</th>
+			<th>
+			<select name="category[parent_id]">
+			<?php foreach ($category->getParentCategory() as $categoryId => $pathName):  ?>
+				<option value="<?php echo $categoryId; ?>"><?php echo $pathName;   ?></option>
+			<?php endforeach; ?>
+			</select>
+			</th>
+		</tr>
+		<tr>
+			<th>NAME</th>
+			<th> <input type="text" name="category[name]" value="<?php echo $category->name;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>DESCRIPTION</th>
+			<th><input type="text" name="category[description]" value="<?php echo $category->description;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>STATUS</th>
+			<th>
+			<select name="category[status]">
+			<?php foreach ($category->getResource()->getStatusOptions() as $key => $value): ?>
+			<?php $selected = ($key == $category->getStatus()) ? 'selected' : '';  ?>
+			<option value="<?php echo $key; ?>" <?php echo $selected; ?>> <?php echo $value; ?> </option>
+		<?php  endforeach;  ?>
+		</select>
+		</th>
+		</tr>
+		</table>
+	</form>

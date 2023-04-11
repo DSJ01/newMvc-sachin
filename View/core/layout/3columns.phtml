@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<table widht = 100%>
+	<tr height = 100px;>
+		<td colspan="3">
+		<?php $this->getChild('header')->render();  ?>
+		</td>
+	</tr>	
+	<tr height = 15px;>
+		<td colspan="3">
+		<?php $this->getChild('message')->render();  ?>
+		</td>
+	</tr>
+	<tr height = 300px;>
+		<td width= 20% >
+			<?php $this->getChild('leftsidebar')->render();  ?>
+		</td>
+		<td width= 60%>
+			<?php $this->getChild('content')->render();  ?>
+		</td>
+		<td width= 20%>
+			<?php $this->getChild('rightsidebar')->render();  ?>
+		</td>
+	</tr>
+	<tr height = 100px;>
+		<td colspan="3">
+			<?php $this->getChild('footer')->render();  ?>
+		</td>
+	</tr>
+	</table>
+</body>
+</html>

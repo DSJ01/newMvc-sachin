@@ -1,0 +1,33 @@
+<?php
+$url = new Model_Core_Url();
+$shippings = $this->getCollection()->getData();
+?>
+<body>
+	<div class="dis-1">
+		<div class="dis-1a"> MANAGE SHIPPING</div>
+		<div class="dis-1a"> <button> <a href= <?php echo $url->getUrl('shipping','add');  ?>> ADD SHIPPING</a> </button> </div>
+	</div>
+	<table>
+		<tr>
+		<th>SHIPPING ID</th>
+		<th>NAME</th>
+		<th>AMOUNT</th>
+		<th>STATUS</th>
+		<th>EDIT</th>
+		<th>DELETE</th>
+		</tr>
+		<?php
+			
+			foreach ($shippings as $shipping):
+			
+		?>
+		<tr>
+		<td><?php echo $shipping-> shipping_method_id; ?></td>
+		<td><?php echo $shipping-> name; ?></td>
+		<td><?php echo $shipping-> amount; ?></td>
+		<td><?php echo $shipping->getStatusText(); ?></td>
+		<td> <a href=<?php echo $url->getUrl('shipping','edit',['id' => $shipping-> shipping_method_id]);?>>EDIT</a> </td>
+		<td> <a href=<?php echo $url->getUrl('shipping','delete',['id' => $shipping-> shipping_method_id]);?>>DELETE</a> </td>
+		</tr>
+	<?php endforeach ?>
+	</table>

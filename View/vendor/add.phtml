@@ -1,0 +1,73 @@
+<?php
+	require_once 'view/html/header.phtml';
+	$url = new Model_Core_Url();
+?>
+	<form method="POST" action=<?php echo $url->getUrl('vendor','save');?>>
+		<table>
+			<div class="dis-1">
+		<div class="dis-1a"> ADD VENDOR </div>
+		<div class="dis-1a"> <button> <input type="submit" name="submit" value="submit"> </div>
+	</div>
+		<tr>
+			<th>FIRST NAME</th>
+			<th> <input type="text" name="vendor[first_name]"> </th>
+		</tr>
+		<tr>
+			<th>LAST NAME</th>
+			<th> <input type="text" name="vendor[last_name]"> </th>
+		</tr>
+		<tr>
+			<th>EMAIL</th>
+			<th> <input type="email" name="vendor[email]"> </th>
+		</tr>
+		<tr>
+			<th>MOBILE NO.</th>
+			<th> <input type="number" name="vendor[mobile_no]"> </th>
+		</tr>
+		<tr>
+			<th>GENDER</th>
+			<th> 
+				<select name="vendor[gender]">
+					<option>SELECT OPTION</option>
+					<option value="1">Male</option>
+					<option value="2">Female</option>
+				</select>
+			</th>
+		</tr>
+		<tr>
+			<th>STATUS</th>
+			<th> 
+				<select name="vendor[status]">
+					<option>SELECT OPTION</option>
+					<option value="1">Active</option>
+					<option value="2">Inactive</option>
+				</select>
+			</th>
+		</tr>
+		<tr>
+			<th>COMPANY</th>
+			<th> <input type="text" name="vendor[company]"> </th>
+		</tr>
+		<div> <th> <h3>  ADDRESS</h3></th> </div>
+		<tr>
+			<th>ADDRESS</th>
+			<th> <input type="text" name="vendor_address[address]"> </th>
+		</tr>
+		<tr>
+			<th>CITY</th>
+			<th> <input type="text" name="vendor_address[city]"> </th>
+		</tr>
+		<tr>
+			<th>STATE</th>
+			<th> <input type="text" name="vendor_address[state]"> </th>
+		</tr>
+		<tr>
+			<th>COUNTRY</th>
+			<th> <input type="text" name="vendor_address[country]"> </th>
+		</tr>
+		<tr>
+			<th>ZIP CODE</th>
+			<th> <input type="number" name="vendor_address[zip_code]"> </th>
+		</tr>
+		</table>
+	</form>

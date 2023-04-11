@@ -1,0 +1,44 @@
+<?php
+$salesmen = $this->getCollection()->getData();
+$url = new Model_Core_Url();
+?>
+	<div class="dis-1">
+		<div class="dis-1a"> MANAGE SALESMAN</div>
+		<div class="dis-1a"> <button> <a href=<?php echo $url->getUrl('salesman','add');?>> ADD SALESMAN</a> </button> </div>
+	</div>
+	<table>
+		<tr>
+		<th>SALESMAN ID</th>
+		<th>FIRST NAME</th>
+		<th>LAST NAME</th>
+		<th>EMAIL</th>
+		<th>MOBILE NO.</th>
+		<th>GENDER</th>
+		<th>STATUS</th>
+		<th>COMPANY</th>
+		<th>ADDRESS</th>
+		<th>PRICE</th>
+		<th>EDIT</th>
+		<th>DELETE</th>
+		</tr>
+		<?php
+			
+			foreach ($salesmen as $salesman):
+			
+		?>
+				<tr>
+		<td><?php echo $salesman->salesman_id; ?></td>
+		<td><?php echo $salesman->first_name; ?></td>
+		<td><?php echo $salesman->last_name; ?></td>
+		<td><?php echo $salesman->email; ?></td>
+		<td><?php echo $salesman->mobile_no; ?></td>
+		<td><?php echo $salesman->gender; ?></td>
+		<td><?php echo $salesman->getStatusText(); ?></td>
+		<td><?php echo $salesman->company; ?></td>
+		<td> <a href=<?php echo $url->getUrl('salesman','address',['id' => $salesman-> salesman_id]);?>>SHOW</a> </td>
+		<td> <a href=<?php echo $url->getUrl('salesman_price','grid',['id' => $salesman-> salesman_id]);?>>PRICE</a> </td>
+		<td> <a href=<?php echo $url->getUrl('salesman','edit',['id' => $salesman-> salesman_id]);?>>EDIT</a> </td>
+		<td> <a href=<?php echo $url->getUrl('salesman','delete',['id' => $salesman-> salesman_id]);?>>DELETE</a> </td>
+		</tr>
+	<?php endforeach ?>
+	</table>

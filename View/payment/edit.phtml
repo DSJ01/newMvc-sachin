@@ -1,0 +1,27 @@
+<?php
+	$payment = $this->getData('payment');
+	$url = new Model_Core_Url();
+?>
+	<form method="POST" action=<?php echo $url->getUrl('payment','save',['id' => $payment-> payment_method_id]);?>>
+		<table class="table table-sm">
+			<div class="dis-1">
+		<div class="dis-1a">EDIT PAYMENT METHOD</div>
+		<div class="dis-1a"> <button> <input type="submit" name="update" value="update"> </div>
+	</div>
+		<tr>
+			<th>NAME</th>
+			<th> <input type="text" name="payment[name]" value="<?php echo $payment-> name; ?>"> </th>
+		</tr>
+		<tr>
+			<th>STATUS</th>
+			<th>
+			<select name="payment[status]">
+			<?php foreach ($payment->getResource()->getStatusOptions() as $key => $value): ?>
+			<?php $selected = ($key == $payment->getStatus()) ? 'selected' : '';  ?>
+			<option value="<?php echo $key; ?>" <?php echo $selected; ?>> <?php echo $value; ?> </option>
+		<?php  endforeach;  ?>
+		</select>
+		</th>
+		</tr>
+		</table>
+	</form>

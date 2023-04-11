@@ -1,0 +1,32 @@
+<?php
+	$url = new Model_Core_Url();
+	$shipping = $this->getData('shipping');
+?>
+	<form method="POST" action=<?php echo $url->getUrl('shipping','save',['id' => $shipping-> shipping_method_id ]) ?>>
+		<table>
+			<div class="dis-1">
+		<div class="dis-1a">EDIT SHIPPING METHOD</div>
+		<div class="dis-1a"> <button> <input type="submit" name="update" value="update"> </div>
+	</div>
+		<tr>
+			<th>NAME</th>
+			<th> <input type="text" name="shipping[name]" value="<?php echo $shipping-> name; ?>"> </th>
+		</tr>
+		<tr>
+			<th>AMOUNT</th>
+			<th> <input type="amount" name="shipping[amount]" value="<?php echo $shipping-> amount;  ?>"> </th>
+		</tr>
+		<tr>
+			<th>STATUS</th>
+			<th>
+			<select name="shipping[status]">
+			<?php foreach ($shipping->getResource()->getStatusOptions() as $key => $value): ?>
+			<?php $selected = ($key == $shipping->getStatus()) ? 'selected' : '';  ?>
+			<option value="<?php echo $key; ?>" <?php echo $selected; ?>> <?php echo $value; ?> </option>
+		<?php  endforeach;  ?>
+		</select>
+		</th>
+		</tr>
+		</table>
+		
+	</form>

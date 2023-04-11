@@ -1,0 +1,26 @@
+<?php
+$vendorAddress = $this->getData('address');
+
+?>
+	<div class="dis-1">
+		<div class="dis-1a"> MANAGE VENDOR ADDRESS</div>
+	</div>
+	<table>
+		<tr>
+		<th>VENDOR ADDRESS ID</th>
+		<th>ADDRESS</th>
+		<th>CITY</th>
+		<th>STATE</th>
+		<th>COUNTRY</th>
+		<th>ZIP CODE</th>
+		</tr>
+		
+		<tr>
+		<td><?php echo $vendorAddress->vendor_address_id; ?></td>
+		<td><?php echo $vendorAddress->address; ?></td>
+		<td><?php echo $vendorAddress->city; ?></td>
+		<td><?php echo $vendorAddress->state; ?></td>
+		<td><?php echo $vendorAddress->country; ?></td>
+		<td><?php echo $vendorAddress->zip_code; ?></td>
+		</tr>
+	</table>

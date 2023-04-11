@@ -1,0 +1,40 @@
+<?php
+$customers = $this->getCollection()->getData();
+$url = new Model_Core_Url();
+?>
+	<div class="dis-1">
+		<div class="dis-1a"> MANAGE CUSTOMER</div>
+		<div class="dis-1a"> <button> <a href=<?php echo $url->getUrl('customer','add');?>> ADD CUSTOMER </button> </div>
+	</div>
+	<table>
+		<tr>
+		<th>CUSTOMER ID</th>
+		<th>FIRST NAME</th>
+		<th>LAST NAME</th>
+		<th>EMAIL</th>
+		<th>MOBILE NO.</th>
+		<th>GENDER</th>
+		<th>STATUS</th>
+		<th>ADDRESS</th>
+		<th>EDIT</th>
+		<th>DELETE</th>
+		</tr>
+		<?php
+			
+			foreach ($customers as $customer):
+			
+		?>
+		<tr>
+		<td><?php echo $customer-> customer_id; ?></td>
+		<td><?php echo $customer-> first_name; ?></td>
+		<td><?php echo $customer-> last_name; ?></td>
+		<td><?php echo $customer-> email; ?></td>
+		<td><?php echo $customer-> mobile_no; ?></td>
+		<td><?php echo $customer-> gender; ?></td>
+		<td><?php echo $customer->getStatusText(); ?></td>
+		<td> <a href=<?php echo $url->getUrl('customer','address',['id' => $customer-> customer_id]);?>>SHOW</a> </td>
+		<td> <a href=<?php echo $url->getUrl('customer','edit',['id' => $customer-> customer_id]);?>>EDIT</a> </td>
+		<td> <a href=<?php echo $url->getUrl('customer','delete',['id' => $customer-> customer_id]);?>>DELETE</a> </td>
+		</tr>
+	<?php endforeach ?>
+	</table

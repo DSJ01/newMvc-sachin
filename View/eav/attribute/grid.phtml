@@ -1,0 +1,40 @@
+<?php
+$attributes = $this->	getCollection();
+$url = new Model_Core_Url();
+?>
+	<div class="dis-1">
+		<div class="dis-1a"> ATTRIBUTE </div>
+		<div class="dis-1a"> <button> <a href=<?php echo $url->getUrl('eav_attribute','add');?>> ADD ATTRIBUTE</a> </button> </div>
+	</div>
+	
+	<table class="table table-sm">
+		<tr>
+		<th>ATTRIBUTE ID</th>
+		<th>ENTITY TYPE ID</th>
+		<th>CODE</th>
+		<th>BACKEND TYPE</th>
+		<th>NAME</th>
+		<th>STATUS</th>
+		<th>BACKEND MODEL</th>
+		<th>INPUTE TYPE</th>
+		<th>EDIT</th>
+		<th>DELETE</th>
+		</tr>
+		<?php
+			foreach ($attributes->getData() as $attribute):
+		?>
+		<tr>
+		<td><?php echo $attribute->attribute_id; ?></td>
+		<td><?php echo $attribute->entity_type_id; ?></td>
+		<td><?php echo $attribute->code; ?></td>
+		<td><?php echo $attribute->backend_type; ?></td>
+		<td><?php echo $attribute->name; ?></td>
+		<td><?php echo $attribute->status; ?></td>
+		<td><?php echo $attribute->backend_model; ?></td>
+		<td><?php echo $attribute->input_type; ?></td>
+		<td><?php //echo $payment->getStatusText(); ?></td>
+		<td> <a href=<?php echo $url->getUrl('eav_attribute','edit',['id' => $attribute-> attribute_id]);?>>EDIT</a> </td>
+		<td> <a href=<?php echo $url->getUrl('eav_attribute','delete',['id' => $attribute-> attribute_id]);?>>DELETE</a> </td>
+		</tr>
+	<?php endforeach; ?>
+	</table>
