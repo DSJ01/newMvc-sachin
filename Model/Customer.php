@@ -21,6 +21,26 @@ class Model_Customer extends Model_Core_Table
         }
         return $statuses[Model_Customer_Resource::STATUS_DEFAULT];
     }
+
+    public function getBillingAddress()
+    {
+        if (!$this->billing_address_id) {
+                return null;
+        }
+        $billingAddress = Ccc::getModel('Customer_Address');
+        $billingAddress->load($this->billing_address_id);
+        return $billingAddress;
+    }
+
+    public function getShippingAddress()
+    {
+        if (!$this->shipping_address_id) {
+                return null;
+        }
+        $shippingAddress = Ccc::getModel('Customer_Address');
+        $shippingAddress->load($this->shipping_address_id);
+        return $shippingAddress;
+    }
 }
 
 ?>

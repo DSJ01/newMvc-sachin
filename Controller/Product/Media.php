@@ -13,13 +13,14 @@ class Controller_Product_media extends Controller_Core_Action{
 			if (!$productId) {
 				throw new Exception("request denied..", 1);
 			}
-			$sql = "SELECT * FROM `product_media` WHERE `product_id` = '{$productId}'";
-			$productimgModel = Ccc::getModel('Product_Media');
-			$productimg = $productimgModel->fetchAll($sql);
+			if (!($product = Ccc::getModel('Product')->load($productId))) {
+				throw new Exception("Data Not Found", 1);
+			}
+			
 			$layout = $this->getLayout();
 			$media = new Block_Product_Media_Grid();
-			$media->setData(['productimg' => $productimg, '$productid' => $productId]);
-			$layout->getChild('content')->addChilde('edit',$media);
+			$media->setData(['product' => $product]);
+			$layout->getChild('content')->addChilde('grid',$media);
 			$layout->render();
 			
 		} catch (Exception $e) {
@@ -37,10 +38,11 @@ class Controller_Product_media extends Controller_Core_Action{
 			}
 			$productimgModel = Ccc::getModel('Product_Media');
 			$layout = $this->getLayout();
-			$grid = new Block_Product_Media_Grid();
-			
-			$view = $this->getView();
-			$view->setTemplate('product_media/add.phtml')->setData(['productid' => $productId])->render();
+			$edit = new Block_Product_Media_Edit();
+			$edit->setData(['edit'=>$productimgModel , 'productid' => $productId]);
+			$layout->getChild('content')->addChilde('edit', $edit);
+
+			$layout->render();
 	}
 
 	public function insertAction()
@@ -84,57 +86,66 @@ class Controller_Product_media extends Controller_Core_Action{
 
 	public function updateAction()
 	{
-		// try {
-
-		$productModel =Ccc::getModel('Product_Media'); 
-		$request = $this->getRequest();	
-		$productId = $request->getParams('id');
-		$productMediaId = $request->getPost('image');
-		$basicData = ['base'=>0,'thumnail'=>0,'small'=>0,'gallary'=>0];
-		$condition = ['product_id'=>$productId];
-		$result = $productModel->save($basicData,$condition);	
-		$condition = ['product_media_id'=>$productMediaId];
+		try {
 
 
-		$images = $request->getpost();
 
-		if (array_key_exists('base',$images)) 
-		{
-			$base =Ccc::getModel('Product_Media'); 
-			$base->setData(['base'=>1]);
-			$base->product_media_id = $data['base'];
-			$result = $base->save();
+			$request = $this->getRequest();
+			$productId = $request->getParams('id');
+			if (!$productId) {
+				$this->error('Invalid Request !!');
+			}
+
+			if (!($product = Ccc::getModel('Product')->load($productId))) {
+				$this->error('Product data not found !!!');
+			}
+
+			if (!$request->isPost()) {
+				$this->error('Invalid request !!!');
+			}
+
+			$data = $request->getPost();
+			if (array_key_exists('base',$data)) {
+				$product->base = $data["base"];
+			}
+
+			if (array_key_exists('thumnail',$data)) {	
+				$product->thumb = $data["thumnail"];
+			}
+
+			if (array_key_exists('small',$data)) {
+				$product->small = $data["small"];
+			}	
+
+			if (!($product->save())) {
+				$this->error('failed to save data !!!');
+			}
+	
+			// $basicData = ['gallary'=>0];
+			// $productMediaModel = Ccc::getModel('Product_Media'); 
+			// $condition = ['product_id'=>$productId];
+			// echo '<pre>';
+			// print_r($productMediaModel->setData($basicData));
+			// $result = $productMediaModel->save($condition);	
+			// die;
+
+			if (array_key_exists('gallary',$data)) {
+				$condition = $data["gallary"];
+				$gallary = Ccc::getModel('Product_Media');
+				$gallary->setData(['gallary'=>1]);
+				$gallary->product_media_id = '';
+				$result = $gallary->save($condition);
+				if (!$result) {
+					$this->error('failed to save data !!!');
+				}
+			}
+
+			$this->getMessage()->addMessage('Data Saved Successfully..!!');
+			$this->redirect('grid',null,null);
+		} catch (Exception $e) {
+			$this->getMessage()->addMessages($e->getMessage(),Model_Core_Message::FAILURE);
+			$this->redirect('product','grid',null,true);
 		}
-
-		if (array_key_exists('small',$images)) 
-		{
-			$small =Ccc::getModel('Product_Media'); 
-			$small->setData(['small'=>1]);
-			$small->product_media_id = $data['small'];
-			$result = $small->save();
-		}
-
-		if (array_key_exists('thumnail',$images)) {	
-			$thumnail =Ccc::getModel('Product_Media'); 
-			$thumnail->setData(['thumnail'=>1]);
-			$thumnail->product_media_id = $data['thumnail'];
-			$result = $thumnail->save();
-		}	
-
-		if (array_key_exists('gallery',$images)) {
-			$condition = $data['gallary'];
-			$gallary =Ccc::getModel('Product_Media'); 
-			$gallary->setData(['gallary'=>1]);
-			$gallary->product_media_id = $data['gallary'];
-			$result = $gallary->save();
-
-		$this->redirect('product_media','grid',['id'=>$productId],true);
-
-			
-		// } catch (Exception $e) {
-		// 	$this->getMessage()->addMessages($e->getMessage(),Model_Core_Message::FAILURE);
-		// 		$this->redirect('product','grid',null,true);
-		// }
 		
 
 		}
@@ -142,8 +153,6 @@ class Controller_Product_media extends Controller_Core_Action{
 
 }
 		
-
-	}
 
 	
 

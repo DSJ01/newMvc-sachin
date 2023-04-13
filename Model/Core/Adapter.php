@@ -5,7 +5,7 @@ class Model_Core_Adapter{
 	public $servername = "localhost";
 	public $username = "root";
 	public $password = "";
-	public $database = "project-sachin-detroja-04-good";
+	public $database = "newmvc-sachin";
 
 	public function connection()
 	{

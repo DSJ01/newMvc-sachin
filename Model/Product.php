@@ -19,6 +19,32 @@ class Model_Product extends Model_Core_Table
         }
         return $statuses[Model_Product_Resource::STATUS_DEFAULT];
     }
+
+    public function getBase()
+    {
+        return $this->base;
+    }
+
+    public function getThumb()
+    {
+        return $this->thumb;
+    }
+
+    public function getSmall()
+    {
+        return $this->small;
+    }
+
+    public function getImages()
+    {
+        if (!$this->product_id) {
+            return null;
+        }
+        $sql = "SELECT * FROM `product_media` WHERE `product_id` = '{$this->product_id}'";
+        $productimgModel = Ccc::getModel('Product_Media');
+        $productimg = $productimgModel->fetchAll($sql);
+        return $productimg;
+    }
 }
 
 ?>
