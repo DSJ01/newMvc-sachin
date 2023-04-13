@@ -3,9 +3,9 @@
 	$customer = $this->getData('customer');
 	$billingAddress = $this->getData('billingAddress');
 	$shippingAddress = $this->getData('shippingAddress');
-	// echo "<pre>";
-	// print_r($customer); 
-	// print_r($customerAddress); die();
+	// var_dump($billingAddress);
+	// die;
+	
 ?>
 	<form method="POST" action=<?php echo $url->getUrl('customer','save',['id' =>$customer->customer_id]);?>>
 		<table>

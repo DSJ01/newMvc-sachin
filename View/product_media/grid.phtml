@@ -1,15 +1,14 @@
 <?php
-$images = $this->getData('productimg')->getData();
 echo "<pre>";
-echo $productId = $this->getData('productid');
-
+$product = $this->getData('product');
+$images = $product->getImages();
 ?>
 	<div class="dis-1">
 		<div class="dis-1a">MANAGE IMAGES</div>
 		<div class="dis-1a"> 
-		<a href="index.php?c=product_media&a=add&id=<?php echo $productId;?>">ADD</a> </div>
+		<a href="index.php?c=product_media&a=add&id=<?php echo $product->product_id;?>">ADD</a> </div>
 	</div>
-<form method="POST" action="index.php?c=product_media&a=update&id=<?php echo $productId;?>">
+<form method="POST" action="index.php?c=product_media&a=update&id=<?php echo $product->product_id;?>">
 		 <input type="submit" name="update" value="UPDATE"> 
 	<table>
 		<tr>
@@ -22,20 +21,16 @@ echo $productId = $this->getData('productid');
 		<th>GALLERY</th>
 		<th>STATUS</th>
 		</tr>
-		<?php
-			
-			foreach ($images as $image):
-			
-		?>
+		<?php foreach ($images->getData() as $image): ?>
 		<tr>
 		<td><?php echo $image-> product_media_id ?></td>
 		<td><?php echo $image-> name ?></td>
 		<td> <img src="view/product_media/media/<?php echo $image-> image; ?>" width="50" height="60" 	> </td>
-		<td> <input type="radio" name="thumnail" value="<?php echo $image-> product_media_id; ?>" <?php if ($image-> thumnail == '1'){ echo "checked"; }?>> </td>
+		<td> <input type="radio" name="thumnail" value="<?php echo $image-> product_media_id; ?>" <?php if ($image->product_media_id == $product->getThumb()){ echo "checked"; }?>> </td>
 
-		<td> <input type="radio" name="small" value="<?php echo $image-> product_media_id; ?>" <?php if ($image-> small == '1'){ echo "checked"; }?> > </td>
+		<td> <input type="radio" name="small" value="<?php echo $image-> product_media_id; ?>" <?php if ($image->product_media_id == $product->getSmall()){ echo "checked"; }?> > </td>
 		
-		<td> <input type="radio" name="base" value="<?php echo $image-> product_media_id; ?>" <?php if ($image-> base == '1'){ echo "checked"; }?>> </td>
+		<td> <input type="radio" name="base" value="<?php echo $image-> product_media_id; ?>" <?php if ($image->product_media_id == $product->getBase()){ echo "checked"; }?>> </td>
 		
 		<td> <input type="checkbox" name="gallery[]" value="<?php echo $image-> product_media_id; ?>" <?php if ($image-> gallary == '1'){ echo "CHECKED"; }?> > </td>
 		<td><?php echo $image-> status ?></td>

@@ -25,7 +25,7 @@ class Model_Customer extends Model_Core_Table
     public function getBillingAddress()
     {
         if (!$this->billing_address_id) {
-                return false;
+                return null;
         }
         $billingAddress = Ccc::getModel('Customer_Address');
         $billingAddress->load($this->billing_address_id);
@@ -35,7 +35,7 @@ class Model_Customer extends Model_Core_Table
     public function getShippingAddress()
     {
         if (!$this->shipping_address_id) {
-                return false;
+                return null;
         }
         $shippingAddress = Ccc::getModel('Customer_Address');
         $shippingAddress->load($this->shipping_address_id);

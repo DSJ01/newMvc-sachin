@@ -151,8 +151,9 @@ class Model_Core_Table
 		return $this;
 	}
 
-	public function load($id,$column = null)
+	public function load($id)
 	{
+		// echo $id;
 		$data = $this->getResource()->load($id);
 		if ($data) {
 			$this->setData($data);

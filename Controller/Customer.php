@@ -24,10 +24,8 @@ class Controller_Customer extends Controller_Core_Action{
 		try {
 			$customerModel = Ccc::getModel('Customer');
 			$customerAddressModel = Ccc::getModel('Customer_Address');
-
 			$layout = $this->getLayout();
 			$edit = new Block_Customer_Edit();
-			$edit->setData(['customer' => $customerModel, 'customerAddress' => $customerAddressModel]);
 			$layout->getChild('content')->addChilde('edit',$edit);
 			$layout->render();
 			
@@ -48,6 +46,7 @@ class Controller_Customer extends Controller_Core_Action{
 
 			$billingAddress = Ccc::getModel('Customer_Address')->load($customer->billing_address_id);
 			$shippingAddress = Ccc::getModel('Customer_Address')->load($customer->shipping_address_id);
+			
 			$layout = $this->getLayout();
 			$edit = new Block_Customer_Edit();
 			$edit->setData(['customer' => $customer, 'billingAddress' => $billingAddress, 'shippingAddress' => $shippingAddress]);
@@ -91,30 +90,61 @@ class Controller_Customer extends Controller_Core_Action{
 				$billingModel = Ccc::getModel('Customer_Address');
 
 				if ($id) {
+					echo "<pre>";
 					$customerModel->load($id);
-					$sql = "SELECT * FROM `customer_address` WHERE `customer_id` = '{$id} AND `` '";
-					$customerAddressModel->fetchRow($sql);
-					$customerAddressModel-> updated_at = date("Y-m-d h:i:sa");
+					$shippingAddress = $customerModel->getShippingAddress();
+					// print_r($shippingAddress); die();
+					$sql = "SELECT * FROM `customer_address` WHERE `customer_id` = '{$id}' AND `customer_address_id` = '{$shippingAddress->customer_address_id}' ";
+					$shippingModel->fetchRow($sql);
+					$shippingModel-> updated_at = date("Y-m-d h:i:sa");
 					$customerModel -> updated_at = date("Y-m-d h:i:sa");
+
+					$billingAddress = $customerModel->getBillingAddress();
+					$sql = "SELECT * FROM `customer_address` WHERE `customer_id` = '{$id}' AND `customer_address_id` = '{$billingAddress->customer_address_id}' ";
+					$billingModel->fetchRow($sql);
+					$billingModel-> updated_at = date("Y-m-d h:i:sa");
+					unset($customerModel->billing_address_id);
+					unset($customerModel->shipping_address_id);
 
 				}
 				else{
 				$customerModel -> created_at = date("Y-m-d h:i:sa");
-				$customerAddressModel-> created_at = date("Y-m-d h:i:sa");
+				$shippingModel-> created_at = date("Y-m-d h:i:sa");
+				$billingModel-> created_at = date("Y-m-d h:i:sa");
 				}
 				$customerModel->setData($customerData);
 				$customerId = $customerModel->save();
-				$customerAddressModel->setData($customerAddressData);
-				if (!$customerAddressModel->customer_id) {
-				$customerAddressModel-> customer_id = $customerId;
-				}
-				$result = $customerAddressModel->save();
 
-				if ($customerId && $result ) {
-					throw new Exception("DATA SAVED...", 1);
-					
+				$shippingModel->setData($shippingAddressData);
+				if (!$shippingModel->customer_id) {
+				$shippingModel-> customer_id = $customerId;
 				}
-				// $this->redirect('customer','grid',null,true);
+				$shippingId = $shippingModel->save();
+
+				$billingModel->setData($billingAddressData);
+				if (!$billingModel->customer_id) {
+				$billingModel-> customer_id = $customerId;
+				}
+				$billingId = $billingModel->save();
+
+				if (!$billingModel->customer_address_id) {
+					$customerModel->shipping_address_id = $shippingId;
+				}
+
+				if (!$shippingModel->customer_address_id) {
+					$customerModel->billing_address_id = $billingId;
+				}
+
+				if (!$customerModel->customer_id) {
+					$customerModel->customer_id = $customerId;
+				}
+				
+				if (!$customerModel->save()) {
+					$this->error('data not saved');
+				}
+				$this->getMessage()->addMessages('Data Saved..');
+				
+				$this->redirect('customer','grid',null,true);
 				
 			} catch (Exception $e) {
 				$this->getMessage()->addMessages($e->getMessage(),Model_Core_Message::FAILURE);
